@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../routes/route_names.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,27 +12,31 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  String version = "";
+  String version = "1.0.0";
 
   @override
   void initState() {
     super.initState();
-    _loadVersion();
     _navigate();
   }
 
-  void _loadVersion() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    setState(() {
-      version = packageInfo.version;
-    });
-  }
-
-  void _navigate() {
-    Timer(const Duration(seconds: 3), () {
+  void _navigate() async {
+    // Wait for 3 seconds
+    await Future.delayed(const Duration(seconds: 3));
+    
+    // Check if first time launch
+    final prefs = await SharedPreferences.getInstance();
+    final bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+    
+    if (!mounted) return;
+    
+    if (isFirstTime) {
+      // First time - show onboarding
+      Navigator.pushReplacementNamed(context, RouteNames.onboarding);
+    } else {
+      // Not first time - go to dashboard
       Navigator.pushReplacementNamed(context, RouteNames.dashboard);
-    });
+    }
   }
 
   @override
@@ -54,9 +58,6 @@ class _SplashScreenState extends State<SplashScreen> {
                   width: 200,
                 ),
 
-                const SizedBox(height: 30),
-
-                const CircularProgressIndicator(),
               ],
             ),
           ),

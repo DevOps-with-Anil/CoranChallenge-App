@@ -48,6 +48,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Coran Challenge',
+      theme: ThemeData(
+        primarySwatch: Colors.deepOrange,
+        fontFamily: 'Roboto',
+      ),
       onGenerateRoute: AppRouter.generateRoute,
       initialRoute: RouteNames.splash,
     );

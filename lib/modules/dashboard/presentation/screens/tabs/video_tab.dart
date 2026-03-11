@@ -5,36 +5,85 @@ class VideoTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-    
-      body: Column(
+    return Container(
+      color: Colors.grey.shade100,
+      child: Column(
         children: [
+          const SizedBox(height: 10),
 
-          /// Search Bar
+          /// Title
+          // const Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16),
+          //   child: Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: Text(
+          //       "Videos",
+          //       style: TextStyle(
+          //         fontSize: 20,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
+          // const SizedBox(height: 12),
+
+          /// Search Bar with Filter
           Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 6,
-                    color: Colors.black12,
-                  )
-                ],
-              ),
-              child: const TextField(
-                decoration: InputDecoration(
-                  hintText: "Search videos...",
-                  prefixIcon: Icon(Icons.search),
-                  border: InputBorder.none,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                // Filter Icon
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        blurRadius: 6,
+                        color: Colors.black12,
+                      )
+                    ],
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.tune, color: Colors.black87),
+                    onPressed: () {},
+                  ),
                 ),
-              ),
+                const SizedBox(width: 10),
+                
+                // Search Field
+                Expanded(
+                  child: Container(
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          blurRadius: 6,
+                          color: Colors.black12,
+                        )
+                      ],
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Search videos...",
+                        hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                        prefixIcon: Icon(Icons.search, color: Colors.grey.shade400),
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+
+          const SizedBox(height: 12),
 
           /// Category Chips
           SizedBox(

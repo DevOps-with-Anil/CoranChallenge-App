@@ -22,53 +22,56 @@ class _ChallengeTabState extends State<ChallengeTab> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      children: [
+    return Container(
+      color: Colors.grey.shade100,
+      child: Column(
+        children: [
 
-        const ChallengeSearchBar(),
+          const ChallengeSearchBar(),
 
-        const SizedBox(height: 8),
+          const SizedBox(height: 8),
 
-        ChallengeCategories(
-          categories: categories,
-          selected: selectedCategory,
-          onSelect: (value){
-            setState(() {
-              selectedCategory = value;
-            });
-          },
-        ),
-
-        const SizedBox(height: 10),
-
-        Expanded(
-          child: RefreshIndicator(
-            onRefresh: () async {
-              await Future.delayed(const Duration(seconds: 1));
+          ChallengeCategories(
+            categories: categories,
+            selected: selectedCategory,
+            onSelect: (value){
+              setState(() {
+                selectedCategory = value;
+              });
             },
-
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-
-              children: [
-
-                const TrendingChallengeBanner(),
-
-                const SizedBox(height: 20),
-
-                ...List.generate(
-                  4,
-                  (index) => const Padding(
-                    padding: EdgeInsets.only(bottom: 20),
-                    child: ChallengeCard(),
-                  ),
-                ),
-
-              ],
-            ),
           ),
-        )
-      ],
+
+          const SizedBox(height: 10),
+
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await Future.delayed(const Duration(seconds: 1));
+              },
+
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+
+                children: [
+
+                  const TrendingChallengeBanner(),
+
+                  const SizedBox(height: 20),
+
+                  ...List.generate(
+                    4,
+                    (index) => const Padding(
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: ChallengeCard(),
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -78,25 +81,56 @@ class ChallengeSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16,16,16,8),
-
-      child: TextField(
-        decoration: InputDecoration(
-
-          hintText: "Search challenge",
-
-          prefixIcon: const Icon(Icons.search),
-
-          filled: true,
-          fillColor: Colors.grey.shade100,
-
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Challenges",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              // Filter Icon
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.tune, color: Colors.black87),
+                  onPressed: () {},
+                ),
+              ),
+              const SizedBox(width: 10),
+              
+              // Search Field
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "Search challenge...",
+                    hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                    prefixIcon: Icon(Icons.search, color: Colors.grey.shade400),
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

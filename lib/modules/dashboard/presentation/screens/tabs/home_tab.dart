@@ -39,10 +39,11 @@ class HomeContent extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: Colors.deepOrange,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: const Text(
         "🔥 Youth Tajweed Excellence Award - 8 Days Left",
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.white, fontSize: 13),
+        textAlign: TextAlign.center,
       ),
     );
   }
@@ -53,12 +54,12 @@ class HomeContent extends StatelessWidget {
       children: [
         Image.asset(
           "assets/dummy/challenges-thumbnail.jpg",
-          height: 220,
+          height: 200,
           width: double.infinity,
           fit: BoxFit.cover,
         ),
         Container(
-          height: 220,
+          height: 200,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -73,7 +74,7 @@ class HomeContent extends StatelessWidget {
         const Positioned(
           left: 16,
           right: 16,
-          bottom: 20,
+          bottom: 16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -81,17 +82,17 @@ class HomeContent extends StatelessWidget {
                 "Learn Quran with Expert Teachers",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 6),
+              SizedBox(height: 4),
               Text(
                 "Join live classes and improve your Quran recitation skills with certified teachers.",
                 style: TextStyle(
                   color: Colors.white70,
-                  fontSize: 14,
-                  height: 1.4,
+                  fontSize: 13,
+                  height: 1.3,
                 ),
               ),
             ],
@@ -121,13 +122,13 @@ class HomeContent extends StatelessWidget {
         children: [
           Text(title,
               style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold)),
+                  fontSize: 17, fontWeight: FontWeight.bold)),
           const Text(
             "See all",
             style: TextStyle(
                 color: Colors.deepOrange,
                 fontWeight: FontWeight.w500,
-                fontSize: 14),
+                fontSize: 13),
           ),
         ],
       ),
@@ -137,18 +138,18 @@ class HomeContent extends StatelessWidget {
   /// LATEST NEWS
   Widget _latestNews() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionHeader("Latest News"),
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
           SizedBox(
-            height: 230,
+            height: 220,
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,
-              itemBuilder: (_, i) => _newsCard(),
+              itemBuilder: (context, i) => _newsCard(context),
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemCount: 3,
             ),
@@ -159,66 +160,78 @@ class HomeContent extends StatelessWidget {
   }
 
   /// NEWS CARD
-  Widget _newsCard() {
-    return Container(
-      width: 260,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          )
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(14)),
-            child: Image.asset(
-              "assets/dummy/challenges-thumbnail.jpg",
-              height: 120,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(12, 10, 12, 4),
-            child: Text(
-              "New Quran Memorization Techniques",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Text(
-              "Learn simple and effective techniques used by scholars to memorize the Quran faster.",
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.black54,
+  Widget _newsCard(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/news-detail',
+          arguments: {
+            'title': 'New Quran Memorization Techniques',
+            'image': 'assets/dummy/challenges-thumbnail.jpg',
+          },
+        );
+      },
+      child: Container(
+        width: 250,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.05),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            )
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(12)),
+              child: Image.asset(
+                "assets/dummy/challenges-thumbnail.jpg",
+                height: 110,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
-          ),
-          const Spacer(),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(12, 0, 12, 10),
-            child: Text(
-              "2 hours ago",
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.deepOrange,
+            const Padding(
+              padding: EdgeInsets.fromLTRB(10, 8, 10, 4),
+              child: Text(
+                "New Quran Memorization Techniques",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
             ),
-          ),
-        ],
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                "Learn simple and effective techniques used by scholars to memorize the Quran faster.",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            const Spacer(),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 8),
+              child: Text(
+                "2 hours ago",
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.deepOrange,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -226,14 +239,14 @@ class HomeContent extends StatelessWidget {
   /// CHALLENGE SECTION
   Widget _challengeSection() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionHeader("Ongoing Challenges"),
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
           SizedBox(
-            height: 240,
+            height: 230,
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,
@@ -250,12 +263,12 @@ class HomeContent extends StatelessWidget {
   /// FEATURED VIDEOS
   Widget _featuredVideos() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionHeader("Featured Videos"),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -350,7 +363,9 @@ class _HomeChallengeCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/sign-in');
+              },
               child: const Text("Participate"),
             ),
           )

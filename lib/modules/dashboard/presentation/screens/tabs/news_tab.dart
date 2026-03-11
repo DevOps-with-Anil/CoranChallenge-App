@@ -146,57 +146,111 @@ class _NewsTabState extends State<NewsTab> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      children: [
+    return Container(
+      color: Colors.grey.shade100,
+      child: Column(
+        children: [
 
-        _searchBar(),
+          _searchBar(),
 
-        _trendingSlider(),
+          _trendingSlider(),
 
-        _categories(),
+          _categories(),
 
-        Expanded(
-          child: RefreshIndicator(
-            onRefresh: refreshNews,
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: filteredNews.length,
-              itemBuilder: (_, i) {
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: refreshNews,
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: filteredNews.length,
+                itemBuilder: (_, i) {
 
-                final item = filteredNews[i];
+                  final item = filteredNews[i];
 
-                return NewsCard(
-                  title: item["title"],
-                  desc: item["desc"],
-                  image: item["image"],
-                  time: item["time"],
-                );
-              },
+                  return NewsCard(
+                    title: item["title"],
+                    desc: item["desc"],
+                    image: item["image"],
+                    time: item["time"],
+                  );
+                },
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
   /// SEARCH BAR
   Widget _searchBar() {
-
     return Padding(
-      padding: const EdgeInsets.all(2),
-      child: TextField(
-        controller: searchController,
-        onChanged: (_) => filterNews(),
-        decoration: InputDecoration(
-          hintText: "Search news...",
-          prefixIcon: const Icon(Icons.search),
-          filled: true,
-          fillColor: Colors.grey.shade100,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide.none,
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // const Text(
+          //   "News",
+          //   style: TextStyle(
+          //     fontSize: 20,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+        
+          // const SizedBox(height: 10),
+          Row(
+            children: [
+              // Filter Icon
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      blurRadius: 6,
+                      color: Colors.black12,
+                    )
+                  ],
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.tune, color: Colors.black87),
+                  onPressed: () {},
+                ),
+              ),
+              const SizedBox(width: 10),
+              
+              // Search Field
+              Expanded(
+                child: Container(
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        blurRadius: 6,
+                        color: Colors.black12,
+                      )
+                    ],
+                  ),
+                  child: TextField(
+                    controller: searchController,
+                    onChanged: (_) => filterNews(),
+                    decoration: InputDecoration(
+                      hintText: "Search news...",
+                      hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                      prefixIcon: Icon(Icons.search, color: Colors.grey.shade400),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
+        ],
       ),
     );
   }
@@ -345,78 +399,90 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(10),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/news-detail',
+          arguments: {
+            'title': title,
+            'image': image,
+          },
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(10),
 
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.08),
-            blurRadius: 8,
-            offset: const Offset(0,3),
-          )
-        ],
-      ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.08),
+              blurRadius: 8,
+              offset: const Offset(0,3),
+            )
+          ],
+        ),
 
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              image,
-              height: 90,
-              width: 120,
-              fit: BoxFit.cover,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                image,
+                height: 90,
+                width: 120,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
 
-          const SizedBox(width: 12),
+            const SizedBox(width: 12),
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-                Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                  Text(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 6),
+                  const SizedBox(height: 6),
 
-                Text(
-                  desc,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.black54,
-                    fontSize: 13,
+                  Text(
+                    desc,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.black54,
+                      fontSize: 13,
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
-                Text(
-                  time,
-                  style: const TextStyle(
-                    color: Colors.deepOrange,
-                    fontSize: 12,
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+                  Text(
+                    time,
+                    style: const TextStyle(
+                      color: Colors.deepOrange,
+                      fontSize: 12,
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
